@@ -9,7 +9,7 @@ const port = 8000
 const { client } = require('./functions/databaseClient')
 const usersRoute = require('./routes/users')
 const casesRoute = require('./routes/cases')
-
+const blogsRoute = require('./routes/blogs')
 
 // middleware configuration
 app.use(express.json());
@@ -20,11 +20,12 @@ app.use(cors());
 let run = async () => {
     await client.db("equiJurisAssociates").command({ ping: 1 });
     app.use('/users', usersRoute)
+    app.use('/blogs', blogsRoute)
     app.use('/cases', casesRoute)
     app.get('/', (req, res) => { res.send("Welcome to EquiJuris Associate server.") })
 }
 
-// main fuction calling
+// main function calling
 run().catch(err => {
     console.log(err);
 })
