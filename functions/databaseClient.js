@@ -7,10 +7,11 @@ let database = client.db('equiJurisAssociates')
 let userCollection = database.collection('users')
 let caseCollection = database.collection('cases')
 let blogCollection = database.collection('blogs')
-
+let practiceAreaCollection = database.collection('practiceAreas')
 module.exports = {
     client,
     userCollection,
     caseCollection,
-    blogCollection
+    blogCollection,
+    practiceAreaCollection
 }

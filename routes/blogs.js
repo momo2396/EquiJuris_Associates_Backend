@@ -8,7 +8,7 @@ const { blogCollection } = require('../functions/databaseClient')
 const { ObjectId } = require('mongodb')
 
 router.get('/all-blogs', async (req, res) => {
-    let blogs = await blogCollection.find({}).toArray()
+    let blogs = await blogCollection.find({}).sort({createdDate: -1}).toArray();
     res.send({ data: blogs, success: true, message: "" })
 })
 
