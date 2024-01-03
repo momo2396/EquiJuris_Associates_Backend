@@ -11,6 +11,13 @@ router.get('/', async (req, res) => {
     res.send({ data: cases, success: true, message: "" })
 })
 
+router.get('/my-cases', async (req, res) => {
+  let email = req.query.email
+  let cases = await caseCollection.find({lawyerEmail: email}).toArray()
+  res.send({ data: cases, success: true, message: "" })
+})
+
+
 router.post("/insert-case", async (req, res) => {
     let newCase = req.body;
     let result = await caseCollection.insertOne(newCase);
