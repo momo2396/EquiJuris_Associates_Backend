@@ -14,7 +14,7 @@ router.get('/all-users', async (req, res) => {
 })
 router.get('/single-user', async (req, res) => {
     let email = req.query.email
-    console.log(req.query)
+   
     let query = {
         email: email
     }

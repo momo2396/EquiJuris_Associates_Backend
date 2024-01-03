@@ -11,5 +11,10 @@ router.get('/', async (req, res) => {
     res.send({ data: cases, success: true, message: "" })
 })
 
+router.post("/insert-case", async (req, res) => {
+    let newCase = req.body;
+    let result = await practiceAreaCollection.insertOne(newCase);
+    res.send({ data: result, success: true, message: "" });
+  });
 
 module.exports = router
