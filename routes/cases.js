@@ -14,7 +14,9 @@ router.get('/', async (req, res) => {
 router.get('/my-cases', async (req, res) => {
   let email = req.query.email
   let cases = await caseCollection.find({lawyerEmail: email}).toArray()
-  res.send({ data: cases, success: true, message: "" })
+  // console.log(+new Date(cases[1]?.createdAt))
+  let sortedCases = cases.sort((a,b) => +new Date(b?.createdAt)  - +new Date(a?.createdAt) )
+  res.send({ data: sortedCases, success: true, message: "" })
 })
 
 
