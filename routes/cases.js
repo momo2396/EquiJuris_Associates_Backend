@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 
 router.post("/insert-case", async (req, res) => {
     let newCase = req.body;
-    let result = await practiceAreaCollection.insertOne(newCase);
+    let result = await caseCollection.insertOne(newCase);
     res.send({ data: result, success: true, message: "" });
   });
 

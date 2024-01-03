@@ -50,4 +50,20 @@ router.delete('/delete-user', async(req, res) =>{
    res.send({ data: result, success: true, message: "" })
 })
 
+router.put('/status-update', async(req, res)=>{
+    let status = req.query.status;
+    let email = req.query.email;
+    let updatedData = {
+        status : status,
+    }
+
+    let query = {
+        email: email
+    }
+    
+    const updateDoc = {$set: updatedData}
+
+    const result = await userCollection.updateOne(query, updateDoc, {upsert: true})
+    res.send({ data: result, success: true, message: "" })
+})
 module.exports = router
