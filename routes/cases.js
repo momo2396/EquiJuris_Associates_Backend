@@ -21,8 +21,16 @@ router.get('/my-cases', async (req, res) => {
 
 router.get('/cases-for-clients', async (req, res) => {
   let email = req.query.email
-  let cases = await caseCollection.find({clients: {$elemMatch: {email: email}}}).toArray()
-  let sortedCases = cases.sort((a,b) => +new Date(b?.createdAt)  - +new Date(a?.createdAt) )
+  let cases = await caseCollection.find({}).toArray()
+  let clientCases=[];
+  for(let i=0; i<cases.length; i++){
+    cases[i]?.clients?.forEach(cc => {
+      if(cc?.email === email) {
+        clientCases.push(cases[i]);
+      }
+    })
+  }
+  let sortedCases = clientCases.sort((a,b) => +new Date(b?.createdAt)  - +new Date(a?.createdAt) )
   res.send({ data: sortedCases, success: true, message: "" })
 })
 
