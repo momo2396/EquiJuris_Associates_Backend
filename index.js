@@ -5,14 +5,20 @@ const cors = require('cors');
 const app = express();
 const port = 8000
 
+require("dotenv").config();
+
+
+
 
 
 // routes and functions import
-const { client } = require('./functions/databaseClient')
+const { client, caseCollection } = require('./functions/databaseClient')
 const usersRoute = require('./routes/users')
 const casesRoute = require('./routes/cases')
 const blogsRoute = require('./routes/blogs')
-const practiceAreaRoute = require('./routes/practiceArea')
+const practiceAreaRoute = require('./routes/practiceArea');
+const paymentRoute = require('./routes/payment')
+const { ObjectId } = require('mongodb');
 
 
 
@@ -33,6 +39,7 @@ async function run() {
       app.use('/blogs', blogsRoute)
       app.use('/cases', casesRoute)
       app.use('/practiceAreas', practiceAreaRoute)
+      app.use('/pay',paymentRoute)
   
     } finally {
       

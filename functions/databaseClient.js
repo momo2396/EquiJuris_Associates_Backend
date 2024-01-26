@@ -8,10 +8,12 @@ let userCollection = database.collection('users')
 let caseCollection = database.collection('cases')
 let blogCollection = database.collection('blogs')
 let practiceAreaCollection = database.collection('practiceAreas')
+let paymentCollection = database.collection('payments');
 module.exports = {
     client,
     userCollection,
     caseCollection,
     blogCollection,
-    practiceAreaCollection
+    practiceAreaCollection,
+    paymentCollection
 }

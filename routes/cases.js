@@ -19,6 +19,13 @@ router.get('/my-cases', async (req, res) => {
   res.send({ data: sortedCases, success: true, message: "" })
 })
 
+router.get('/cases-for-clients', async (req, res) => {
+  let email = req.query.email
+  let cases = await caseCollection.find({clients: {$elemMatch: {email: email}}}).toArray()
+  let sortedCases = cases.sort((a,b) => +new Date(b?.createdAt)  - +new Date(a?.createdAt) )
+  res.send({ data: sortedCases, success: true, message: "" })
+})
+
 router.get('/single-case/:id', async (req, res) => {
   let id = req.params.id
   let query = {
@@ -33,5 +40,17 @@ router.post("/insert-case", async (req, res) => {
     let result = await caseCollection.insertOne(newCase);
     res.send({ data: result, success: true, message: "" });
   });
+
+router.put("/update-case/:id", async(req, res) =>{
+  let id = req.params.id;
+  let data = req.body;
+  let updateDoc = {
+    $set:{
+      ...data
+    }
+  }
+  let result = await caseCollection.updateOne({_id: new ObjectId(id)}, updateDoc, {upsert:true})
+  res.send({ data: result, success: true, message: "" });
+})
 
 module.exports = router
