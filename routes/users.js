@@ -66,4 +66,18 @@ router.put('/status-update', async(req, res)=>{
     const result = await userCollection.updateOne(query, updateDoc, {upsert: true})
     res.send({ data: result, success: true, message: "" })
 })
+router.put('/update/:email', async(req, res)=>{
+    let body = req.body;
+    let email = req.params.email;
+    let query = {
+        email: email
+    }
+    
+    const updateDoc = {$set: {
+        ...body
+    }}
+
+    const result = await userCollection.updateOne(query, updateDoc, {upsert: true})
+    res.send({ data: result, success: true, message: "" })
+})
 module.exports = router

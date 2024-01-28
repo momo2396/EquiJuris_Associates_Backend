@@ -22,7 +22,7 @@ router.get('/single-blog/:id', async (req, res) => {
 })
 
 router.post('/insert-blog', async (req, res) => {
-let newBlog = req.body.blog
+let newBlog = req.body
 let result = await blogCollection.insertOne(newBlog)
 res.send({ data: result, success: true, message: "" })    
 })

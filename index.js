@@ -12,7 +12,7 @@ require("dotenv").config();
 
 
 // routes and functions import
-const { client, caseCollection } = require('./functions/databaseClient')
+const { client, caseCollection, appointmentCollection } = require('./functions/databaseClient')
 const usersRoute = require('./routes/users')
 const casesRoute = require('./routes/cases')
 const blogsRoute = require('./routes/blogs')
@@ -40,7 +40,27 @@ async function run() {
       app.use('/cases', casesRoute)
       app.use('/practiceAreas', practiceAreaRoute)
       app.use('/pay',paymentRoute)
-  
+      app.post('/appointment/insert', async(req, res)=>{
+        const apnt = req.body;
+        let result = await appointmentCollection.insertOne(apnt);
+    res.send({ data: result, success: true, message: "" });
+      })
+      app.get('/appointment/all', async(req, res)=>{
+        let apnt = await appointmentCollection.find({}).toArray();
+        apnt.sort((a,b)=> +new Date(a?.createdAt) - +new Date(b?.createdAt))
+        res.send({ data: apnt, success: true, message: "" })
+      })
+     app.put('/appointment/update/:id', async(req, res)=>{
+      let id = req.params.id;
+      let data = req.body;
+      let updateDoc = {
+        $set:{
+          ...data
+        }
+      }
+      let result = await appointmentCollection.updateOne({_id: new ObjectId(id)}, updateDoc, {upsert:true})
+      res.send({ data: result, success: true, message: "" });
+     })
     } finally {
       
     }

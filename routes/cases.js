@@ -34,6 +34,7 @@ router.get('/cases-for-clients', async (req, res) => {
   res.send({ data: sortedCases, success: true, message: "" })
 })
 
+
 router.get('/single-case/:id', async (req, res) => {
   let id = req.params.id
   let query = {
