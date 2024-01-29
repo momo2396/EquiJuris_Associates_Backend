@@ -8,9 +8,6 @@ const port = 8000
 require("dotenv").config();
 
 
-
-
-
 // routes and functions import
 const { client, caseCollection, appointmentCollection } = require('./functions/databaseClient')
 const usersRoute = require('./routes/users')
@@ -47,7 +44,7 @@ async function run() {
       })
       app.get('/appointment/all', async(req, res)=>{
         let apnt = await appointmentCollection.find({}).toArray();
-        apnt.sort((a,b)=> +new Date(a?.createdAt) - +new Date(b?.createdAt))
+        apnt.sort((a,b)=> +new Date(b?.createdAt) - +new Date(a?.createdAt))
         res.send({ data: apnt, success: true, message: "" })
       })
      app.put('/appointment/update/:id', async(req, res)=>{

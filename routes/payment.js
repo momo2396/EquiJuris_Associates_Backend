@@ -13,13 +13,13 @@ const is_live = false
 const transactionID = new ObjectId().toString();
 
 router.post('/', async (req,res)=>{
-    const caseMoney = await caseCollection.findOne({_id: new ObjectId(req.body.caseID)})
+    const cases = await caseCollection.findOne({_id: new ObjectId(req.body.caseID)})
     const pay = req.body
     const data = {
-      total_amount: 100089,
+      total_amount: cases?.caseMoney,
       currency: 'BDT',
       tran_id: transactionID, 
-      success_url: `http://localhost:8000/pay/success/${transactionID}`,
+      success_url: `https://equi-juris-associates-backend.vercel.app/pay/success/${transactionID}`,
       fail_url: 'http://localhost:5173/fail',
       cancel_url: 'http://localhost:3030/cancel',
       ipn_url: 'http://localhost:3030/ipn',
@@ -63,9 +63,21 @@ router.post('/', async (req,res)=>{
   });
 
   router.post("/success/:tranID", async(req, res)=>{
-    const result =await paymentCollection.insertOne(paidCaseInfo)
-    res.redirect("http://localhost:5173/dashboard")
+    const result =await paymentCollection.insertOne(paidCaseInfo);
+    let updateDoc = {
+      $set:{
+        isPaid: "paid"
+      }
+    }
+    await caseCollection.updateOne({_id: new ObjectId(pay?.caseID)}, updateDoc, {upsert:true})
+    res.redirect("https://equijuris-associates.vercel.app/dashboard/client/myCases")
   })
   });
+
+  router.get('/view-payment/:id', async(req, res)=>{
+  const id = req.params.id;
+  const result = await paymentCollection.findOne({caseID: id})
+  res.send({ data: result, success: true, message: "" })
+  })
 
 module.exports = router

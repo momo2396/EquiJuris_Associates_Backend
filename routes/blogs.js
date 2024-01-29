@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 // functions import
-const roleCheck = require('../functions/roleCheck')
-const genToken = require('../functions/genToken')
+// const roleCheck = require('../functions/roleCheck')
+// const genToken = require('../functions/genToken')
 const { blogCollection } = require('../functions/databaseClient')
 const { ObjectId } = require('mongodb')
 
